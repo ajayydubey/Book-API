@@ -325,4 +325,70 @@ booky.put("/publication/update/book/:isbn",(req,res)=>{
 
 });
 
+
+/* 
+Route         /book/delete
+Description   Delete a book
+Access        Public
+Parameter     isbn
+Methods       delete
+
+*/
+booky.delete("/book/delete/:isbn",(req,res)=>{
+  
+  //Tadeoff
+  //Replace the whole object(map)
+  //edit at single point to master dsatabase (foreach)
+
+  const updatedBookDatebase =database.books.filter(
+    (book) => book.ISBN!== req.params.isbn
+    );
+    //filter will return new array
+    database.books=updatedBookDatebase;
+    return res.json({books:database.books});
+
+
+});
+
+/* 
+Route         /book/delete/author
+Description   Delete a author from a book
+Access        Public
+Parameter     isbn
+Methods       delete
+
+*/
+booky.delete("/book/delete/author/:isbn/:authorId",(req,res)=>{
+
+  //Update Book Database 
+  database.books.forEach((book) => {
+    if(book.ISBN===req.params.isbn)
+    {
+      const newAuthorList=book.author.filter(
+        (author)=> author!==parseInt(req.params.authorId)
+        );
+        book.authors=newAuthorList;
+        return; 
+
+    }
+
+  });
+  //Update Author
+  database.author.forEach((author)=> {
+    if(author.id===parseInt(req.params.authorId)){
+      const newBooksList =author.books.filter(
+        (book)=> book!==req.params.isbn
+        );
+        author.books=newBooksList;
+        return;
+    }
+  });
+  return res.json({ 
+    books: database.books, 
+    author: database.author,
+    message:"Successfully Deleted Author",
+  });
+  
+});
+
 booky.listen(3000,() => console.log("Server is running"))
