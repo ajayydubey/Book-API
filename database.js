@@ -29,11 +29,16 @@ const author=[
 
 ];
 
-const publication = [
+const publication  = [
     {
         id:1 ,
         names: "Writex",
         books: ["12345Book"],
+    },
+    {
+        id:2,
+        names: "BBT",
+        books: ["BGV Gita"],
     }
 ];
 
