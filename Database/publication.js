@@ -5,5 +5,5 @@ const PublicationSchema = mongoose.Schema({
     names: String,
     books: [String],
 });
-const PublicationModel =mongoose.model(PublicationSchema);
+const PublicationModel =mongoose.model("publications",PublicationSchema);
 module.exports=PublicationModel;
